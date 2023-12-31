@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>BMI Calculator</title>
+        <title>BMI HISTORY</title>
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -15,7 +15,7 @@
         <div class="bg-dark">
             <div class="container">
                 <nav class="navbar navbar-expand navbar-dark bg-dark">
-                    <a class="navbar-brand" href="#">BMI CALCULATOR</a>
+                    <a class="navbar-brand" href="#">History</a>
                     <button
                         class="navbar-toggler"
                         type="button"
@@ -52,7 +52,8 @@
                 </nav>
             </div>
         </div>
-
+        <h1>BMI History</h1>
+        <ul id="historyList"></ul>
         <div class="container">
             <footer class="py-3 my-4">
                 <p class="text-center text-muted">© Jeleubay Aslan, 2024</p>
@@ -63,5 +64,21 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
         ></script>
+        <script>
+            fetch("/history")
+                .then((response) => response.json())
+                .then((data) => {
+                    const historyList = document.getElementById("historyList");
+
+                    data.forEach((item) => {
+                        const listItem = document.createElement("li");
+                        listItem.textContent = `${item.date}: BMI ${item.bmi} - ${item.status}`;
+                        historyList.appendChild(listItem);
+                    });
+                })
+                .catch((error) =>
+                    console.error("Error fetching history:", error)
+                );
+        </script>
     </body>
 </html>

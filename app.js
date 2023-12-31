@@ -1,5 +1,5 @@
+const bmiHistory = [];
 let bodyParser = require("body-parser");
-
 const path = require("path");
 const express = require("express");
 const app = express();
@@ -18,11 +18,25 @@ app.get("/calculator", (req, resp) => {
     resp.sendFile(__dirname + "/public/calculator.html");
 });
 
+function getBmiStatus(bmi) {
+    if (bmi < 18.5) {
+        return "Underweight";
+    } else if (bmi >= 18.5 && bmi < 24.9) {
+        return "Normal Weight";
+    } else if (bmi >= 25 && bmi < 29.9) {
+        return "Overweight";
+    } else {
+        return "Obese";
+    }
+}
+
 app.get("/history", (req, resp) => {
-    resp.sendFile(__dirname + "/public/history.html");
+    resp.json(bmiHistory);
 });
+
 app.get("/result", (req, resp) => {
-    resp.sendFile(__dirname + "/public/result.html");
+    const bmi = req.query.bmi;
+    resp.sendFile(__dirname + `/public/result.html`);
 });
 
 app.post("/calculator", (req, resp) => {
@@ -44,7 +58,7 @@ app.post("/calculator", (req, resp) => {
     let age = parseInt(req.body.age);
 
     if (isNaN(weight) || isNaN(age) || isNaN(height)) {
-        resp.send("Please napishi vse");
+        resp.send("Please enter all the values");
     }
     let bmi = weight / height ** 2;
     if (age !== null) {
@@ -58,10 +72,17 @@ app.post("/calculator", (req, resp) => {
             bmi += 2;
         }
     }
+    const bmiData = {
+        date: new Date().toLocaleString(),
+        bmi: bmi.toFixed(2),
+        status: getBmiStatus(bmi),
+    };
 
-    resp.redirect(`/result?=${bmi}`);
+    bmiHistory.push(bmiData);
+
+    resp.redirect(`/result?bmi=${bmi}`);
 });
 
-app.listen(3000, function () {
+app.listen(port, function () {
     console.log(`server started on port ${port}`);
 });

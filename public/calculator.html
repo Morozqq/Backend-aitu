@@ -27,7 +27,6 @@
                     >
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
                     <div
                         class="collapse navbar-collapse justify-content-center"
                         id="navbarsExample02"
@@ -52,19 +51,31 @@
                 </nav>
             </div>
         </div>
+
         <div class="pt-4">
             <div class="container">
                 <div class="form-outline" data-mdb-input-init>
-                    <form action="/calculator" method="post">
+                    <form
+                        action="/calculator"
+                        method="post"
+                        class="row g-3 needs-validation"
+                        novalidate
+                    >
                         <label class="form-label" for="form12">Weight</label>
                         <div class="d-flex">
                             <div class="col-11">
                                 <input
                                     type="text"
-                                    id="form12"
+                                    id="validationCustom01"
                                     class="form-control"
                                     name="weight"
+                                    required
+                                    pattern="\d+(\.\d{1,2})?"
                                 />
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">
+                                    Please enter a valid weight.
+                                </div>
                             </div>
                             <select name="w_type" class="col-1">
                                 <option value="kg">Kilograms</option>
@@ -80,10 +91,16 @@
                                     id="form12"
                                     class="form-control"
                                     name="height"
+                                    required
+                                    pattern="\d+(\.\d{1,2})?"
                                 />
+                                <div class="valid-feedback">Looks good!</div>
+                                <div class="invalid-feedback">
+                                    Please enter a valid height.
+                                </div>
                             </div>
                             <select name="h_type" class="col-1">
-                                <option value="cm">Cantimetrs</option>
+                                <option value="cm">Centimeters</option>
                                 <option value="ft">Feet</option>
                             </select>
                         </div>
@@ -94,22 +111,54 @@
                             id="form12"
                             class="form-control"
                             name="age"
+                            required
+                            pattern="\d+"
                         />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback">
+                            Please enter a valid age.
+                        </div>
 
                         <button class="btn btn-primary mt-3">Enter</button>
                     </form>
                 </div>
             </div>
         </div>
+
         <div class="container">
             <footer class="py-3 my-4">
                 <p class="text-center text-muted">© Jeleubay Aslan, 2024</p>
             </footer>
         </div>
+
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
         ></script>
+        <script>
+            (function () {
+                "use strict";
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll(".needs-validation");
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms).forEach(function (form) {
+                    form.addEventListener(
+                        "submit",
+                        function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+
+                            form.classList.add("was-validated");
+                        },
+                        false
+                    );
+                });
+            })();
+        </script>
     </body>
 </html>
