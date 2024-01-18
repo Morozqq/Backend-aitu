@@ -1,0 +1,6 @@
+BMI CALCULATOR
+Instructions
+
+1. You have to install (npm i) express,body-parser,nodemon,dotenv
+2. To launch the project type in the terminal -npm run dev
+3. The server runs on port 3000
